@@ -79,4 +79,38 @@ class ManageKeywordsViewModelTest {
 
         assertNotEquals(FXCollections.observableList(originalKeywordsList), modifiedKeywords, "compared lists are identical");
     }
+
+    @Test
+    void removedKeywordIncludedInKeywordsList() {
+        ObservableList<String> modifiedKeywords = keywordsViewModel.getKeywords();
+        List<String> originalKeywordsList = Arrays.asList("Human-machine interaction", "Chatbot", "Medical Chatbot",
+                "Natural Language Processing", "Machine Learning", "Bot", "Chatbot", "Medical services", "Internet",
+                "Data collection", "Medical diagnostic imaging", "Automation", "Vocabulary");
+        List<String> removedKeywordsList = Arrays.asList("Human-machine interaction", "Chatbot", "Medical Chatbot",
+                "Natural Language Processing", "Machine Learning", "Bot", "Chatbot", "Medical services", "Internet",
+                "Data collection", "Medical diagnostic imaging", "Automation");
+
+        assertEquals(FXCollections.observableList(originalKeywordsList), modifiedKeywords, "compared lists are not identical");
+
+        keywordsViewModel.removeKeyword("Vocabulary");
+
+        assertEquals(FXCollections.observableList(removedKeywordsList), modifiedKeywords, "compared lists are not identical");
+    }
+
+    @Test
+    void addKeywordNotIncludedInKeywordsList() {
+        ObservableList<String> modifiedKeywords = keywordsViewModel.getKeywords();
+        List<String> originalKeywordsList = Arrays.asList("Human-machine interaction", "Chatbot", "Medical Chatbot",
+                "Natural Language Processing", "Machine Learning", "Bot", "Chatbot", "Medical services", "Internet",
+                "Data collection", "Medical diagnostic imaging", "Automation", "Vocabulary");
+        List<String> addedKeywordsList = Arrays.asList("Human-machine interaction", "Chatbot", "Medical Chatbot",
+                "Natural Language Processing", "Machine Learning", "Bot", "Chatbot", "Medical services", "Internet",
+                "Data collection", "Medical diagnostic imaging", "Automation", "Vocabulary", "NewKeyword");
+
+        assertEquals(FXCollections.observableList(originalKeywordsList), modifiedKeywords, "compared lists are not identical");
+
+        keywordsViewModel.getKeywords().add("NewKeyword");
+
+        assertEquals(FXCollections.observableList(addedKeywordsList), modifiedKeywords, "compared lists are not identical");
+    }
 }
